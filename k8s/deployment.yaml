@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: morpheus-release-intel
+  namespace: default
+  labels:
+    app: morpheus-release-intel
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: morpheus-release-intel
+  template:
+    metadata:
+      labels:
+        app: morpheus-release-intel
+    spec:
+      containers:
+        - name: morpheus-release-intel
+          image: nixndme/morpheus-release-intel:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+          env:
+            - name: PORT
+              value: "3000"
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "250m"
+              memory: "256Mi"
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 3000
+            initialDelaySeconds: 10
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+      restartPolicy: Always

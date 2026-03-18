@@ -1,0 +1,18 @@
+version: "3.9"
+
+services:
+  morph-release-intel:
+    build: .
+    image: morph-release-intel:local
+    container_name: morph-release-intel
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+    restart: unless-stopped
+
+# Usage:
+#   docker compose up --build        → build and start
+#   docker compose up -d             → run in background
+#   docker compose logs -f           → tail logs
+#   docker compose down              → stop
